@@ -1,7 +1,7 @@
 import React from 'react'
 import Product from './Product'
 import ProductList from './ProductList'
-import EditProduct from './Editproduct'
+import EditProduct from './EditProduct'
 import { createBrowserRouter,RouterProvider } from 'react-router-dom'
 import User from './User'
 import Order from './Order'
