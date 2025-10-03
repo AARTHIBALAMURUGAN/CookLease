@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import Sidebar from "./sidebar";
+import Sidebar from "./Sidebar";
 
 const Order = () => {
   const [orders, setOrders] = useState([]);
