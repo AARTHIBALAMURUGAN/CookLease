@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import Sidebar from './sidebar';
+import Sidebar from './Sidebar';
 import {useNavigate} from 'react-router-dom'
 
 const Product = () => {
