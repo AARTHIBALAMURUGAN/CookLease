@@ -12,7 +12,7 @@ const ProductList = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await axios.get('http://localhost:3000/api/products');
+        const res = await axios.get(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/products`);
         setProducts(res.data.item);
         setLoading(false);
       } catch (e) {
@@ -29,7 +29,7 @@ const ProductList = () => {
     if (!confirmDelete) return;
 
     try {
-      await axios.delete(`http://localhost:3000/api/product/delete/${id}`);
+      await axios.delete(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/product/delete/${id}`);
       setProducts(products.filter((item) => item._id !== id));
       alert('Product deleted successfully');
     } catch (e) {
@@ -76,7 +76,7 @@ const ProductList = () => {
                   <td>
                     {item.image ? (
                       <img
-                        src={`http://localhost:3000/uploads/${item.image}`}
+                        src={`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/uploads/${item.image}`}
                         alt={item.name}
                         className="product-img"
                       />

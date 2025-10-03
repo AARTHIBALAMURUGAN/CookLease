@@ -19,7 +19,7 @@ const Order = () => {
 
   const fetchorders = async () => {
     try {
-      const res = await axios.get("http://localhost:3000/api/bookings");
+      const res = await axios.get(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/bookings`);
       setOrders(res.data.order || []);
     } catch (e) {
       setError(e.response?.data?.message || "Failed to fetch Orders");
@@ -28,7 +28,7 @@ const Order = () => {
 
   const updateShipment = async (id, shipmentStatus) => {
     try {
-      await axios.patch(`http://localhost:3000/api/booking/${id}`, {
+      await axios.patch(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/booking/${id}`, {
         shipmentStatus,
       });
       fetchorders();
@@ -39,7 +39,7 @@ const Order = () => {
 
   const updatePayment = async (id, paymentStatus) => {
     try {
-      await axios.patch(`http://localhost:3000/api/booking/${id}`, {
+      await axios.patch(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/booking/${id}`, {
         paymentStatus,
       });
       fetchorders();
@@ -50,7 +50,7 @@ const Order = () => {
 
   const updateReturnStatus = async (id, returnStatus) => {
     try {
-      await axios.patch(`http://localhost:3000/api/booking/${id}/return`, {
+      await axios.patch(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/booking/${id}/return`, {
         returnStatus,
       });
       fetchorders();

@@ -30,7 +30,7 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchDashboard = async () => {
       try {
-        const res = await axios.get("http://localhost:3000/api/dashboard");
+        const res = await axios.get(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/dashboard`);
         setData(res.data);
       } catch (err) {
         console.error("Error fetching dashboard:", err);
@@ -80,17 +80,7 @@ const Dashboard = () => {
 
   return (
     <div className="dashboard-container">
-      {/* Sidebar */}
-      {/* <aside className="sidebar">
-        <h2 className="sidebar-title">Admin Panel</h2>
-        <nav className="sidebar-nav">
-          <Link to='/'>Dashboard</Link>
-          <Link to='/product'>Add Product</Link>
-          <Link to='/products'>Product</Link>
-          <Link to='/orders'>Orders</Link>
-          <Link to='/users'>Users</Link>
-        </nav>
-      </aside> */}
+      
       <Sidebar/>
 
       {/* Main Content */}

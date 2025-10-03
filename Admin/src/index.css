@@ -5,7 +5,7 @@
   left: 0;
   height: 100vh;
   overflow-y: auto;
-  z-index: 100;
+  z-index: 1000;
   font-family: Arial, sans-serif;
   width: 200px;
   margin-right: 10px;
@@ -39,12 +39,11 @@
   position: fixed;
   top: 15px;
   left: 15px;
-  
   background: transparent;
   border: none;
   flex-direction: column;
   cursor: pointer;
-  z-index: 99;
+  z-index:99;
   padding: 5px;
 }
 
@@ -237,6 +236,11 @@
   background: hsl(0, 0%, 100%);
   margin-left: 220px; /* Match sidebar width + padding */
   padding: 20px;
+  
+  display: flex;
+  flex-direction: column;
+  height: 100vh;  /* take full viewport */
+
   border-radius: 12px;
   max-width: calc(100% - 240px); /* Account for sidebar + margins */
   box-shadow: 0 4px 20px rgba(0,0,0,0.08);
@@ -246,6 +250,7 @@
 
 .header-bar {
   display: flex;
+  flex-shrink: 1;  /* don’t shrink */
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
@@ -260,7 +265,9 @@
 }
 
 .table-wrapper {
-  overflow-x: auto;
+    flex: 1;
+    overflow-x: auto;
+  overflow-y: auto;
   border: 1px solid #e5e7eb;
   border-radius: 10px;
 }
@@ -393,7 +400,7 @@
   .product-list-container {
     margin-left: 0; /* Remove sidebar margin on mobile */
     max-width: 100%;
-    margin-top: 60px; /* Space for hamburger button */
+    margin-left: 50px;
     padding: 15px 10px;
     border-radius: 0;
     box-shadow: none;

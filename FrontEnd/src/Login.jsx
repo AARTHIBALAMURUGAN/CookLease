@@ -15,13 +15,14 @@ const Login = () => {
     e.preventDefault()
 
 
-    try{const res= await axios.post("http://localhost:3000/api/login",{
+    try{const res= await axios.post(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/login`,{
       email,password  
     })
     localStorage.setItem("token",res.data.tokens)
     localStorage.setItem("userId",res.data.user._id)
-    navigate('/')
+   
     alert("User Logged in")
+    navigate('/')
     setemail('')
     setpassword('')
     // After successful login

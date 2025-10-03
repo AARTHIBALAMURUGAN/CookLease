@@ -2,13 +2,15 @@ import React, { useContext, useState } from "react";
 import { CartContext } from "./CartContext";
 import axios from "axios";
 import Navbar from "./Navbar";
+import {  useNavigate } from "react-router-dom";
 
 
 const Cart = () => {
+  const navigate=useNavigate()
   const userId = localStorage.getItem("userId");
   const token = localStorage.getItem("token");
   const { cart, setCart, increaseQuantity, decreaseQuantity, removeFromCart } = useContext(CartContext);
- 
+  const [errors,setError]=useState({})
   const[Customername,setCustomername]=useState('')
   const [bookingDate, setBookingDate] = useState("");
   const [returnDate, setReturnDate] = useState("");
@@ -55,21 +57,26 @@ const total= cart.reduce(
       }));
 
       await axios.post(
-        `http://localhost:3000/api/booking/${userId}`,
+        `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/booking/${userId}`,
         { customername:Customername,products, bookingDate, returnDate, address: deliveryType === "delivery" ? address : {}, deliveryType, totalAmount: totalPrice },
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
       alert("Booking placed successfully!");
-     
+     navigate('/orders')
       setCustomername('')
       setCart([]);
       setShowBookingForm(false);
       setDeliveryType("");
-    } catch (err) {
-      console.error(err);
-      alert("Failed to place booking");
+    }   catch(e){
+    if(e.response&&e.response.data&&e.response.data.message){
+        const backendMessage=e.response.data.message
+        setError({general:backendMessage})
     }
+    else{
+        setError({general:" Failed to Booking Order"})
+    }
+  }
   };
 
   return (
@@ -77,6 +84,7 @@ const total= cart.reduce(
       <Navbar />
       <main className="cart-page container">
         <h2 className="page-title">My Cart</h2>
+      
 
         {cart.length === 0 ? (
           <div className="empty-state">
@@ -88,7 +96,7 @@ const total= cart.reduce(
             <section className="cart-list">
               {cart.map(item => (
                 <div key={item._id} className="cart-item">
-                  <img className="cart-thumb" src={`http://localhost:3000/uploads/${item.image}`} alt={item.name} />
+                  <img className="cart-thumb" src={`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/uploads/${item.image}`} alt={item.name} />
                   <div className="cart-info">
                     <h3 className="item-name">{item.name}</h3>
                     <p className="item-price">₹{item.price} <span className="muted">/ day</span></p>
@@ -104,8 +112,11 @@ const total= cart.reduce(
               ))}
             </section>
 
+
             <aside className="cart-summary">
+                {errors.general && <div className="alert alert-danger">{errors.general}</div>}
               <div className="summary-card">
+                
                 <h3>Order Summary</h3>
                 <div className="summary-row">
                   <span>Subtotal</span>
@@ -121,11 +132,11 @@ const total= cart.reduce(
                     <>
                       <div className="date-row">
                         <label >Customer Name</label>
-                        <input  className="input" type="text" value={Customername} onChange={e=>setCustomername(e.target.value)} />
+                        <input  className="input" type="text" value={Customername} onChange={e=>setCustomername(e.target.value)}  required/>
                         <label>Booking</label>
-                        <input className="input" type="date" value={bookingDate} onChange={e => setBookingDate(e.target.value)} />
+                        <input className="input" type="date" value={bookingDate} onChange={e => setBookingDate(e.target.value)} required />
                         <label>Return</label>
-                        <input className="input" type="date" value={returnDate} onChange={e => setReturnDate(e.target.value)} />
+                        <input className="input" type="date" value={returnDate} onChange={e => setReturnDate(e.target.value)} required/>
                       </div>
 
                       <div className="delivery-choice">

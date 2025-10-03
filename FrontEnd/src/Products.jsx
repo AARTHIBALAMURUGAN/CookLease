@@ -11,7 +11,7 @@ const[error,seterror]=useState('')
 
     useEffect(()=>{
         const fetchProducts=async()=>{
-        try{const res=await axios.get('http://localhost:3000/api/products')
+        try{const res=await axios.get(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/products`)
 
 setproduct(res.data.item)
 

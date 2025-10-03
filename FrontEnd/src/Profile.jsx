@@ -16,7 +16,7 @@ const Profile = () => {
 
     const fetchUserData = async () => {
       try {
-        const res = await axios.get(`http://localhost:3000/api/user/${userId}`, {
+        const res = await axios.get(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/user/${userId}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setUser(res.data.user);

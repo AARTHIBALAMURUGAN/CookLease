@@ -15,7 +15,7 @@ const ProductDetail = () => {
     useEffect(()=>{
         const fetchProduct=async()=>{
             try{
-             const res=await axios.get(`http://localhost:3000/api/product/${id}`)
+             const res=await axios.get(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/product/${id}`)
              setProduct(res.data.product)
             }
             catch(e){
@@ -31,7 +31,7 @@ if(!product) return <p>Loading......</p>
     <>
     <Navbar/>
     <div className="product-details">
-      <img src={`http://localhost:3000/uploads/${product.image}`} alt={product.name} />
+      <img src={`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/uploads/${product.image}`} alt={product.name} />
       <h2>{product.name}</h2>
       <p><strong>Category:</strong> {product.category}</p>
       <p><strong>Description:</strong> {product.description}</p>

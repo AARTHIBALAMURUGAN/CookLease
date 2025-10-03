@@ -45,7 +45,7 @@ const signup=async(e)=>{
     e.preventDefault()
     if (!Validation()) return;
     
-  try{  const res=await axios.post("http://localhost:3000/api/register",{
+  try{  const res=await axios.post(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/register`,{
         name,phone,email,password
     })
     alert("User Created Successfully")

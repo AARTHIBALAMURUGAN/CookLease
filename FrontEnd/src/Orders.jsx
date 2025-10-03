@@ -10,7 +10,7 @@ const Orders = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const res = await axios.get(`http://localhost:3000/api/bookings/${userid}`, {
+        const res = await axios.get(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/bookings/${userid}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

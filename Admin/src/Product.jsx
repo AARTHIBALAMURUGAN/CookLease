@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import Sidebar from './sidebar';
+import {useNavigate} from 'react-router-dom'
 
 const Product = () => {
   const [Name, setName] = useState('');
@@ -10,6 +11,7 @@ const Product = () => {
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState('');
   const [stock, setStock] = useState('');
+  const navigate=useNavigate()
 
   const createProduct = async (e) => {
     e.preventDefault();
@@ -23,11 +25,12 @@ const Product = () => {
       formData.append('price', price);
       formData.append('stock', stock);
 
-      await axios.post('http://localhost:3000/api/product', formData, {
+      await axios.post(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/product`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
 
       alert('✅ Product created successfully');
+      navigate('/')
       setName('');
       setCategory('');
       setImage(null);

@@ -9,7 +9,7 @@ const User = () => {
   useEffect(() => {
     const getUser = async () => {
       try {
-        const res = await axios.get("http://localhost:3000/api/user");
+        const res = await axios.get(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/user`);
         setUsers(res.data.users);
       } catch (e) {
         if (e.response?.data?.message) {

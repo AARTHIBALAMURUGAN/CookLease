@@ -18,7 +18,7 @@ const EditProduct = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const res = await axios.get(`http://localhost:3000/api/product/${id}`);
+        const res = await axios.get(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/product/${id}`);
         const p = res.data.product;
         setName(p.name);
         setCategory(p.category);
@@ -45,7 +45,7 @@ const EditProduct = () => {
       formData.append("stock", stock);
       if (image) formData.append("image", image);
 
-      await axios.patch(`http://localhost:3000/api/product/update/${id}`, formData, {
+      await axios.patch(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/product/update/${id}`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 

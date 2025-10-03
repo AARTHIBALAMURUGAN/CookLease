@@ -21,7 +21,7 @@ const handleAddToCart = (e) => {
     <div className="card" style={{cursor:"pointer"}}>
       <div  onClick={()=>navigate(`/product/${_id}`)}>
         
-      <img src={`http://localhost:3000/uploads/${image}`} alt={name} />
+      <img src={`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/uploads/${image}`} alt={name} />
 
       <h3>{name}</h3>
       <h4><strong>Category:</strong>{category}</h4>
