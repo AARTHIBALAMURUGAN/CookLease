@@ -9,7 +9,7 @@ connectDb()
 const app=express();
 
 
-
+const port= process.env.PORT || 5000;
 const allowedOrigins = [
   process.env.CORS_ORIGIN_ADMIN,
   process.env.CORS_ORIGIN_USER
@@ -35,6 +35,6 @@ app.get('/',(req,res)=>{
 
 })
 
-app.listen(3000,()=>{
+app.listen(port,()=>{
     console.log("Server Connected")
 })
