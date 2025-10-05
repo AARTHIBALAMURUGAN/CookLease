@@ -1,5 +1,4 @@
 const User =require('../Models/usersModel.js')
-// const mongoose=require('mongoose')
 const bcrypt=require('bcrypt')
 const jwt=require('jsonwebtoken')
 require('dotenv').config();
@@ -104,5 +103,9 @@ const user=async(req,res)=>{
   return res.status(500).json({message:e.message})
  }
 }
+
+
+
+
 
 module.exports={createUser,Login,getUser,user}

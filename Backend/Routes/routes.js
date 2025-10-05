@@ -10,14 +10,15 @@ const storage = multer.diskStorage({
   }
 });
 const upload = multer({storage});
-const {createUser,Login, getUser, user}=require('../Controller/userController.js')
-const {createProducts,  ListProducts, Product, productDetail, productdelete,updateProduct} = require("../Controller/productController.js")
+const {createUser,Login, getUser, user, }=require('../Controller/userController.js')
+const {createProducts,  ListProducts, productDetail, productdelete,updateProduct} = require("../Controller/productController.js")
 const authMiddleWare=require('../Middleware/authMiddleware.js');
 const {createBooking,getOrder, order, update, returned} = require("../Controller/orderBookingController.js");
 const { getDashboardData } = require("../Controller/dashboardController.js");
 router.post('/register',createUser)
 
 router.post('/login',Login)
+
 
 router.get('/user/:id',authMiddleWare,getUser)
 
