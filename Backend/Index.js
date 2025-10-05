@@ -31,10 +31,8 @@ app.use("/api",router)
 
 
 app.get('/',(req,res)=>{
-    res.send("Hello")
+    res.send("Backend Running")
 
 })
 
-app.listen(port,()=>{
-    console.log("Server Connected")
-})
+module.exports=app
