@@ -62,10 +62,15 @@ const increaseQuantity = (id) => {
 const removeFromCart = (id) => {
   setCart(prevCart => prevCart.filter(item => item._id !== id));
 };
+const clearCart = () => {
+    setCart([]);
+    localStorage.removeItem("cart"); // also clear localStorage
+  };
+
 
   return (
     <CartContext.Provider
-      value={{ cart, addToCart, setCart,increaseQuantity, decreaseQuantity,removeFromCart}}
+      value={{ cart, addToCart, setCart,increaseQuantity, decreaseQuantity,removeFromCart,clearCart}}
     >
       {children}
     </CartContext.Provider>

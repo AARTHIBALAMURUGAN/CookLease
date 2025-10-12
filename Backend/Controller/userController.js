@@ -50,29 +50,73 @@ catch(e){
 }
 
 
-const Login=async(req,res)=>{
-try{
-    const {email,password}=req.body
-        const userEmail=await User.findOne({email:email})
-    const userpw=await bcrypt.compare(password,userEmail.password)
+const Login = async (req, res) => {
+  try {
+    const { email, password } = req.body;
 
-if(!email && !userpw){
-    return res.status(400).json({message:"Email or Password wrong"})
-}
+    // Find user by email
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(400).json({ message: "Email or Password wrong" });
+    }
 
-const tokens=jwt.sign({email},process.env.JWT_SECRET)
- return res.status(200).json({message:"user Logges in",tokens,user:{
-    _id:userEmail._id,
-    email:userEmail.email
-}})
-}
+    // Check if user has password (Google login users may not)
+    if (!user.password) {
+      return res.status(400).json({ message: "Please login with Google" });
+    }
 
-catch(e){
-res.status(500).json({message:e.message})
-}
+    // Compare password
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(400).json({ message: "Email or Password wrong" });
+    }
 
+    // Generate JWT
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
 
-}
+    // Set cookie
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+    });
+
+    return res.status(200).json({
+      message: "User logged in",
+      token,
+      user: {
+        _id: user._id,
+        email: user.email,
+        name: user.name,
+      },
+    });
+  } catch (e) {
+    res.status(500).json({ message: e.message });
+  }
+};
+
+const google=async (req, res) => {
+  try {
+    const token = req.cookies.token; // JWT cookie
+    if (!token) return res.status(401).json({ message: "Not logged in" });
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const user = await User.findById(decoded.id).select("-password"); // hide password
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    res.status(200).json({ user });
+  } catch (err) {
+    res.status(401).json({ message: "Invalid token" });
+  }
+};
+const logout=async(req, res) => {
+  res.clearCookie("token", {
+    httpOnly: true,
+    sameSite: "strict",
+    secure: process.env.NODE_ENV === "production",
+  });
+  res.status(200).json({ message: "Logged out successfully" });
+};
 
 const getUser = async (req, res) => {
   try {
@@ -108,4 +152,4 @@ const user=async(req,res)=>{
 
 
 
-module.exports={createUser,Login,getUser,user}
+module.exports={createUser,Login,logout,getUser,user,google}

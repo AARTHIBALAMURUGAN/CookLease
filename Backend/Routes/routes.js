@@ -1,3 +1,4 @@
+
 const express=require("express")
 const router=express.Router()
 const multer = require('multer');
@@ -10,15 +11,23 @@ const storage = multer.diskStorage({
   }
 });
 const upload = multer({storage});
-const {createUser,Login, getUser, user, }=require('../Controller/userController.js')
+const {createUser,Login, getUser, user, logout, google, }=require('../Controller/userController.js')
 const {createProducts,  ListProducts, productDetail, productdelete,updateProduct} = require("../Controller/productController.js")
 const authMiddleWare=require('../Middleware/authMiddleware.js');
 const {createBooking,getOrder, order, update, returned} = require("../Controller/orderBookingController.js");
 const { getDashboardData } = require("../Controller/dashboardController.js");
+
+
+
+
+
 router.post('/register',createUser)
 
 router.post('/login',Login)
 
+router.get('/me',authMiddleWare,google)
+
+router.post('/logout',authMiddleWare,logout)
 
 router.get('/user/:id',authMiddleWare,getUser)
 

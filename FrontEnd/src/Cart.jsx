@@ -8,7 +8,7 @@ import {  useNavigate } from "react-router-dom";
 const Cart = () => {
   const navigate=useNavigate()
   const userId = localStorage.getItem("userId");
-  const token = localStorage.getItem("token");
+ // const token = localStorage.getItem("token");
   const { cart, setCart, increaseQuantity, decreaseQuantity, removeFromCart } = useContext(CartContext);
   const [errors,setError]=useState({})
   const[Customername,setCustomername]=useState('')
@@ -59,7 +59,7 @@ const total= cart.reduce(
       await axios.post(
         `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/booking/${userId}`,
         { customername:Customername,products, bookingDate, returnDate, address: deliveryType === "delivery" ? address : {}, deliveryType, totalAmount: totalPrice },
-        { headers: { Authorization: `Bearer ${token}` } }
+        {withCredentials:true }
       );
 
       alert("Booking placed successfully!");

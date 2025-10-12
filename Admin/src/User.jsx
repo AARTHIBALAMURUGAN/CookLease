@@ -34,7 +34,7 @@ const User = () => {
           users.map((user) => (
             <div key={user._id} className="user-card">
               <h3>{user.name}</h3>
-              <p><strong>Phone:</strong> {user.phone}</p>
+              {user.phone &&<p><strong>Phone:</strong> {user.phone}</p>}
               <p><strong>Email:</strong> {user.email}</p>
             </div>
           ))

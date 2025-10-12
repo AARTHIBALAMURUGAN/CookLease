@@ -89,6 +89,8 @@ html, body, #root {
   font-size: 14px;
 }
 
+
+
 .signup-link {
   color: #6a11cb;
   cursor: pointer;
@@ -755,3 +757,96 @@ nav ul li > a:hover::after {
           color: white;
           cursor: pointer;
         }
+
+         
+            .not-logged-in {
+              text-align: center;
+              padding: 80px 20px;
+              font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            }
+            .not-logged-in h2 {
+              font-size: 24px;
+              color: #ef4444;
+              margin-bottom: 20px;
+            }
+            .not-logged-in p {
+              font-size: 16px;
+              margin-bottom: 30px;
+              color: #374151;
+            }
+            .auth-buttons button {
+              margin: 0 10px;
+              padding: 12px 20px;
+              font-size: 15px;
+              font-weight: 600;
+              border: none;
+              border-radius: 8px;
+              cursor: pointer;
+              transition: 0.2s ease;
+            }
+            .login-btn {
+              background-color: #2563eb;
+              color: #fff;
+            }
+            .login-btn:hover {
+              background-color: #1d4ed8;
+            }
+            .signup-btn {
+              background-color: #10b981;
+              color: #fff;
+            }
+            .signup-btn:hover {
+              background-color: #059669;
+            }
+
+          .profile-page {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 80vh;
+            background-color: #f3f4f6;
+            padding: 20px;
+          }
+          .profile-card {
+            background: #fff;
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+          }
+          .profile-card h2 {
+            font-size: 22px;
+            color: #2563eb;
+            margin-bottom: 20px;
+          }
+          .profile-card p {
+            font-size: 16px;
+            color: #374151;
+            margin-bottom: 12px;
+          }
+          .profile-card strong {
+            font-weight: 600;
+          }
+          .logout-btn {
+            margin-top: 20px;
+            padding: 12px 20px;
+            background-color: #ef4444;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s ease;
+          }
+          .logout-btn:hover {
+            background-color: #dc2626;
+          }
+          .error {
+            color: red;
+            margin-bottom: 15px;
+          }
+        

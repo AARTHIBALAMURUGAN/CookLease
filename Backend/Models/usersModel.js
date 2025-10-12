@@ -10,7 +10,7 @@ const UserSchema=mongoose.Schema({
     },
     phone:{
         type:Number,
-        required:true
+        
     },
     email:{
         type:String,
@@ -19,7 +19,12 @@ const UserSchema=mongoose.Schema({
     },
     password:{
         type:String,
-        required:true
+       
+    },
+    googleId: {
+        type: String,
+        unique: true,
+        sparse: true // allow null values for normal users
     },
     cartdata: {
       type: Object,

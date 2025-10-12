@@ -16,9 +16,10 @@ const Login = () => {
 
 
     try{const res= await axios.post(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/login`,{
-      email,password  
-    })
-    localStorage.setItem("token",res.data.tokens)
+      email,password ,
+      
+    },{withCredentials:true} )
+    
     localStorage.setItem("userId",res.data.user._id)
    
     alert("User Logged in")
@@ -71,6 +72,30 @@ seterrors({general:"Login Failed"})
           <button type="submit" >Login</button>
           <p>Don't have an account? <Link to='/sign-up'className="signup-link">Sign-Up</Link></p>
         </div>
+        <div className="divider">OR</div>
+<p
+  className="google-login-btn"
+  onClick={() => window.open(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/auth/google`, "_self")}
+  style={{
+    display: "flex",
+    alignItems: "center",
+    marginLeft: "60px",
+    color: "blue",
+    cursor: "pointer",
+    textDecoration: "underline" 
+  }}
+>
+  <img 
+  src="/google.png" 
+  alt="Google" 
+  style={{ width: "40px", height: "20px", marginRight: "8px" }}
+/>
+ 
+  <span >Sign in with Google</span>
+</p>
+
+
+
         </form>
       </div>
     </div>

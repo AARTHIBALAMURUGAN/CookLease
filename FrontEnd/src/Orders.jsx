@@ -5,15 +5,19 @@ import Navbar from "./Navbar";
 const Orders = () => {
   const [orders, setOrders] = useState([]);
   const userid = localStorage.getItem("userId");
-  const token = localStorage.getItem("token");
+ // const token = localStorage.getItem("token");
 
   useEffect(() => {
     const fetchOrders = async () => {
       try {
+
+          const userRes = await axios.get(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/me`, {
+        withCredentials: true
+      });
+      const userid = userRes.data.user._id;
         const res = await axios.get(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/bookings/${userid}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+      
+          withCredentials:true
         });
         setOrders(res.data.Orders);
       } catch (err) {
@@ -48,7 +52,7 @@ const Orders = () => {
               <p><strong>Return Date:</strong> {new Date(order.returnDate).toLocaleDateString()}</p>
               <p><strong>Shipment Status:</strong> {order.shipmentStatus}</p>
               <p><strong>Payment Status:</strong> {order.paymentStatus}</p>
-              <p><strong>Address:</strong> {order.address?.fullName || "N/A"}, {order.address?.street || "N/A"}, {order.address?.city || "N/A"}</p>
+             {order.address && <p><strong>Address:</strong> {order.address?.fullName || "N/A"}, {order.address?.street || "N/A"}, {order.address?.city || "N/A"}</p>} 
             </div>
           ))}
         </div>
