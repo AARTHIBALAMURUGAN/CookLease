@@ -34,11 +34,7 @@ fetchProducts();
 
   if (loading) return <p>Loading products...</p>;
   if (error) return <p>{error}</p>;
-    // const ProductList=product.map((item)=>(
-    //   <Product  name={item.name} category={item.category} image={item.image} size={item.size} description={item.description} price={item.price} stock={item.stock}/>
-
-    // ))
-    // console.log(ProductList)
+   
 
   return (
     <>
@@ -51,7 +47,7 @@ fetchProducts();
           value={categoryFilter}
           onChange={(e) => setCategoryFilter(e.target.value)}
         />
-        <button onClick={() => setCategoryFilter('')}>Reset</button>
+        <button onClick={() => setCategoryFilter('')}>Clear</button>
       </div>
    <div className="products-container">
         {filteredProducts.length > 0 ? (

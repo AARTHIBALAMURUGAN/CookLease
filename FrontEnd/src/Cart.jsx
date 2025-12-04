@@ -8,7 +8,7 @@ import {  useNavigate } from "react-router-dom";
 const Cart = () => {
   const navigate=useNavigate()
   const userId = localStorage.getItem("userId");
- // const token = localStorage.getItem("token");
+
   const { cart, setCart, increaseQuantity, decreaseQuantity, removeFromCart } = useContext(CartContext);
   const [errors,setError]=useState({})
   const[Customername,setCustomername]=useState('')

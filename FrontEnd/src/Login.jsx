@@ -21,7 +21,7 @@ const Login = () => {
     },{withCredentials:true} )
     
     localStorage.setItem("userId",res.data.user._id)
-   
+    
     alert("User Logged in")
     navigate('/')
     setemail('')

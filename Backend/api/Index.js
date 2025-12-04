@@ -1,12 +1,12 @@
 const express=require("express")
 const cors=require("cors")
 const jwt = require('jsonwebtoken');
-const User=require('./Models/usersModel.js')
+const User=require('../Models/usersModel.js')
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const cookieParser = require("cookie-parser");
-const connectDb =require('./Config/db.js')
-const router=require('./Routes/routes.js')
+const connectDb =require('../Config/db.js')
+const router=require('../Routes/routes.js')
 require('dotenv').config();
 
 const path = require('path');

@@ -5,13 +5,15 @@ import Navbar from "./Navbar";
 const Orders = () => {
   const [orders, setOrders] = useState([]);
   const userid = localStorage.getItem("userId");
- // const token = localStorage.getItem("token");
+  
 
   useEffect(() => {
     const fetchOrders = async () => {
       try {
 
           const userRes = await axios.get(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/me`, {
+
+            
         withCredentials: true
       });
       const userid = userRes.data.user._id;
