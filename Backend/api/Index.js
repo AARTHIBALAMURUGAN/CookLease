@@ -49,7 +49,7 @@ const createUser = async (userData) => {
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: `http://localhost:${port}/auth/google/callback`,
+    callbackURL: `${process.env.BACKEND_URL}/auth/google/callback`,
 }, async (accessToken, refreshToken, profile, done) => {
     try {
         let user = await findUserByGoogleId(profile.id);
@@ -86,7 +86,7 @@ app.get('/auth/google/callback',
         res.cookie('token', token, { httpOnly: true });
 
         // Redirect to frontend dashboard
-        res.redirect('process.env.CORS_ORIGIN_USER');
+        res.redirect('http://localhost:5173');
     }
 );
 
