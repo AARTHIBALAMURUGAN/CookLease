@@ -86,7 +86,7 @@ app.get('/auth/google/callback',
         res.cookie('token', token, { httpOnly: true });
 
         // Redirect to frontend dashboard
-        res.redirect('http://localhost:5173');
+        res.redirect('process.env.CORS_ORIGIN_USER');
     }
 );
 
