@@ -30,6 +30,7 @@ app.use(
     credentials: true
   })
 );
+app.get('/favicon.ico', (req, res) => res.status(204));
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 app.use(express.json());
 app.use(express.urlencoded({extended:false}))
