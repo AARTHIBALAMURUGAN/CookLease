@@ -114,7 +114,5 @@ app.get('/',(req,res)=>{
     res.send("Backend Running")
 
 })
-app.listen(port,()=>{
-    console.log("server is running on port 5000")
-})
+module.exports = app; 
 
