@@ -1,14 +1,47 @@
 
-import {Link,useNavigate} from "react-router-dom";
+import {Link,useNavigate,useLocation} from "react-router-dom";
 import axios from 'axios'
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 const Login = () => {
 
   const navigate=useNavigate()
+   const location = useLocation();
 
   const[email,setemail]=useState('')
   const[password,setpassword]=useState('')
   const [errors,seterrors]=useState({})
+  const[message,setmessage]=useState("")
+
+
+   // 🔥 GOOGLE LOGIN HANDLER
+  useEffect(() => {
+    const handleGoogleLogin = async () => {
+      const params = new URLSearchParams(location.search);
+ //console.log("Query params:", location.search);
+      if (params.get("google") === "true") {
+        // console.log("Google login detected");
+        try {
+          const res = await axios.get(
+            `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/google`,
+            { withCredentials: true }
+          );
+ 
+        
+          localStorage.setItem("userId", res.data.user._id);
+
+          setmessage("Google Login Successful");
+          navigate("/");
+
+        } catch (err) {
+          setmessage("Google login failed");
+          
+          
+        }
+      }  
+    };
+
+    handleGoogleLogin();
+  }, [location]);
 
   const login=async(e)=>{
     
@@ -22,8 +55,10 @@ const Login = () => {
     
     localStorage.setItem("userId",res.data.user._id)
     
-    alert("User Logged in")
-    navigate('/')
+    setmessage("User Sucessfully Logged in")
+    setTimeout(() => {
+      navigate("/");
+    }, 1000);
     setemail('')
     setpassword('')
     // After successful login
@@ -61,6 +96,7 @@ seterrors({general:"Login Failed"})
 
         <form onSubmit={login}>
         <h2>Login</h2>
+        {message && <div className="alert alert-success">{message}</div>}
         {errors.general && <div className="alert alert-danger">{errors.general}</div>}
         <div className="login-form">
           <label htmlFor="email">Email</label>

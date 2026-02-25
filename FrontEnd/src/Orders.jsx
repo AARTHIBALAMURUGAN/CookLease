@@ -10,8 +10,9 @@ const Orders = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
+        
 
-          const userRes = await axios.get(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/me`, {
+          const userRes = await axios.get(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/google`, {
 
             
         withCredentials: true

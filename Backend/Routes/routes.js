@@ -25,7 +25,7 @@ router.post('/register',createUser)
 
 router.post('/login',Login)
 
-router.get('/me',authMiddleWare,google)
+router.get('/google',authMiddleWare,google)
 
 router.post('/logout',authMiddleWare,logout)
 

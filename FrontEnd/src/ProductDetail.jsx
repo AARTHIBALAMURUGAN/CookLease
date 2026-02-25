@@ -11,6 +11,7 @@ const ProductDetail = () => {
  const { addToCart } = useContext(CartContext);
     const{id}=useParams()
     const[product,setProduct]=useState(null)
+    const [added, setAdded] = useState(false);
 
     useEffect(()=>{
         const fetchProduct=async()=>{
@@ -48,9 +49,12 @@ if(!product) return <p>Loading......</p>
   image: product.image,
   stock: product.stock
 });
-}}>Add to Cart</button>
+setAdded(true);
+}}   disabled={added} >
+  {added ? "Added to Cart " : "Add to Cart"}
+  </button>
       ) : (
-        <button disabled>Sold Out</button>
+        <button disabled>Out of Stock</button>
       )}
     </div>
     </>

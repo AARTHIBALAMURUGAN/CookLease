@@ -9,12 +9,13 @@ const Profile = () => {
   const [user, setUser] = useState(null);
   const [error, setError] = useState("");
 const { clearCart } = useContext(CartContext);
+const [message,setmessage]=useState("")
   // Fetch user info from backend (works for both Google and normal login)
   useEffect(() => {
     const fetchUserData = async () => {
       try {
         const res = await axios.get(
-          `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/me`,
+          `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/google`,
           { withCredentials: true } // send cookie
         );
         setUser(res.data.user);
@@ -41,12 +42,15 @@ const { clearCart } = useContext(CartContext);
       clearCart();
         localStorage.removeItem("userId");
       setUser(null);
-        alert("Successfully logged out!");
-      navigate("/login");
+        setmessage("Successfully logged out!");
+        setTimeout(()=>{
+          navigate("/");
+        },1000)
+     
     } catch (err) {
       console.error("Logout failed:", err);
       
-    alert("Logout failed. Please try again.");
+    setmessage("Logout failed. Please try again.");
     }
   };
 
@@ -56,6 +60,7 @@ const { clearCart } = useContext(CartContext);
       <>
         <Navbar />
         <div className="not-logged-in">
+            {message && <div className="alert alert-success">{message}</div>}
           <h2>⚠ You are not logged in</h2>
           <p>Please login if you have an account or signup if you don't.</p>
           <div className="auth-buttons">
@@ -77,6 +82,7 @@ const { clearCart } = useContext(CartContext);
   return (
     <>
       <Navbar />
+        {message && <div className="alert alert-success">{message}</div>}
       <div className="profile-page">
         <div className="profile-card">
           <h2>👤 My Profile</h2>

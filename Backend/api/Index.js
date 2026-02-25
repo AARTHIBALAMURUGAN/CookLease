@@ -30,7 +30,7 @@ app.use(
     credentials: true
   })
 );
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 app.use(express.json());
 app.use(express.urlencoded({extended:false}))
 app.use(passport.initialize());
@@ -46,30 +46,47 @@ const createUser = async (userData) => {
     return user;
 };
 // Passport Google Strategy
-passport.use(new GoogleStrategy({
-    clientID: process.env.GOOGLE_CLIENT_ID,
-    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: `${process.env.BACKEND_URL}/auth/google/callback`,
-}, async (accessToken, refreshToken, profile, done) => {
-    try {
-        let user = await findUserByGoogleId(profile.id);
+passport.use(
+  new GoogleStrategy(
+    {
+      clientID: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      callbackURL: `${process.env.BACKEND_URL}/auth/google/callback`,
+    },
+    async (accessToken, refreshToken, profile, done) => {
+      try {
+        const email = profile.emails[0].value;
 
-        if (!user) {
-            user = await createUser({
-                name: profile.displayName,
-                email: profile.emails[0].value,
-                googleId: profile.id,
-            });
-            console.log("New user created:", user);
-        } else {
-            console.log("Existing user:", user);
+        // 1️⃣ googleId irukkaa?
+        let user = await User.findOne({ googleId: profile.id });
+        if (user) {
+          return done(null, user);
         }
 
-        done(null, user);
-    } catch (err) {
-        done(err, null);
+        // 2️⃣ same email irukkaa?
+        user = await User.findOne({ email });
+        if (user) {
+          // 🔗 googleId link pannunga
+          user.googleId = profile.id;
+          await user.save();
+          return done(null, user);
+        }
+
+        // 3️⃣ new user create
+        user = await User.create({
+          name: profile.displayName,
+          email: email,
+          googleId: profile.id,
+        });
+
+        return done(null, user);
+      } catch (err) {
+        return done(err, null);
+      }
     }
-}));
+  )
+);
+
 
 
 // Routes
@@ -83,10 +100,11 @@ app.get('/auth/google/callback',
         const token = jwt.sign({ id: req.user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
         // Set JWT cookie
-        res.cookie('token', token, { httpOnly: true });
+        res.cookie('token', token, { httpOnly: true,secure: false, // true in production (https)
+  sameSite: "lax" });
 
         // Redirect to frontend dashboard
-        res.redirect( process.env.CORS_ORIGIN_USER);
+        res.redirect( `${process.env.CORS_ORIGIN_USER}/login?google=true`);
     }
 );
 
@@ -95,5 +113,7 @@ app.get('/',(req,res)=>{
     res.send("Backend Running")
 
 })
+app.listen(port,()=>{
+    console.log("server is running on port 5000")
+})
 
-module.exports = app;

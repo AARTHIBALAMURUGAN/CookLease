@@ -211,6 +211,16 @@ html, body, #root {
   justify-content: center; /* center the cards in the row */
 }
 
+.alert-success {
+  color: rgb(29, 74, 220);
+  font-size:25px;
+  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+
+
 .card {
   flex: 1 1 calc(25% - 20px); /* 4 cards per row, minus gap */
   max-width: 250px;            /* optional: limit card width */
@@ -345,7 +355,7 @@ nav ul li > a:hover::after {
 }
 
 .product-details {
-  max-width: 600px;
+  max-width: 400px;
   margin: 40px auto;
   padding: 20px;
   border: 1px solid #ddd;
@@ -356,7 +366,7 @@ nav ul li > a:hover::after {
 }
 
 .product-details img {
-  width: 100%;
+  width: 50%;
   max-height: 300px;
   object-fit: cover;
   border-radius: 10px;

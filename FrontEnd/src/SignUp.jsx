@@ -10,6 +10,7 @@ const SignUp = () => {
     const[email,setemail]=useState('')
     const[password,setpassword]=useState('')
     const[errors,setError]=useState({})
+    const[message,setmessage]=useState("")
 const Validation=()=>{
 
     let newError={}
@@ -48,8 +49,11 @@ const signup=async(e)=>{
   try{  const res=await axios.post(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/register`,{
         name,phone,email,password
     })
-    alert("User Created Successfully")
-    navigate('/login')
+    setmessage("User Created Successfully")
+    setTimeout( ()=>{
+      navigate('/login')
+    },1000)
+    
     setname('')
     setphone('')
     setemail('')
@@ -73,6 +77,7 @@ const signup=async(e)=>{
       <div className="signup-card">
         <form onSubmit={signup}>
           <h2>Signup</h2>
+           {message && <div className="alert alert-success">{message}</div>}
             {errors.general && <div className="alert alert-danger">{errors.general}</div>}
           <label htmlFor="name">Name</label>
           <input    className={`form-control ${errors.name ? "is-invalid" : ""}`}type="text" name="name" value={name}  onChange={(e)=>{setname(e.target.value),setError({})}} placeholder="Enter your name" />

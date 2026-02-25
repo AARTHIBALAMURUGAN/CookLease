@@ -8,9 +8,10 @@ import {  useNavigate } from "react-router-dom";
 const Cart = () => {
   const navigate=useNavigate()
   const userId = localStorage.getItem("userId");
-
+    
   const { cart, setCart, increaseQuantity, decreaseQuantity, removeFromCart } = useContext(CartContext);
   const [errors,setError]=useState({})
+  const[message,setmessage]=useState('')
   const[Customername,setCustomername]=useState('')
   const [bookingDate, setBookingDate] = useState("");
   const [returnDate, setReturnDate] = useState("");
@@ -42,10 +43,21 @@ const total= cart.reduce(
 
 
   const placeBooking = async () => {
-    if (!bookingDate || !returnDate) return alert("Select booking and return dates");
+
+
+     if (!userId) {
+    setmessage("Please login to confirm your order.");
+    // setTimeout(()=>{
+    //    navigate("/login");
+    // },10000)
+  
+    return;
+  }
+
+    if (!bookingDate || !returnDate) return setmessage("Select booking and return dates");
     if (deliveryType === "delivery") {
       if (!address.fullName || !address.phone || !address.street || !address.city || !address.pincode) {
-        return alert("Please fill all address details for delivery");
+        return setmessage("Please fill all address details for delivery");
       }
     }
 
@@ -62,8 +74,11 @@ const total= cart.reduce(
         {withCredentials:true }
       );
 
-      alert("Booking placed successfully!");
-     navigate('/orders')
+      setmessage("Booking placed successfully!");
+      setTimeout(()=>{
+         navigate('/orders')
+      },1000)
+    // navigate('/orders')
       setCustomername('')
       setCart([]);
       setShowBookingForm(false);
@@ -84,7 +99,7 @@ const total= cart.reduce(
       <Navbar />
       <main className="cart-page container">
         <h2 className="page-title">My Cart</h2>
-      
+       {message && <div className="alert alert-success">{message}</div>}
 
         {cart.length === 0 ? (
           <div className="empty-state">
@@ -125,7 +140,7 @@ const total= cart.reduce(
 
                 <div className="actions">
                   {!showBookingForm ? (
-                    <button className="btn btn-primary proceed-btn" onClick={() => setShowBookingForm(true)}>
+                    <button className="btn btn-primary proceed-btn" onClick={() => {setShowBookingForm(true);placeBooking();}}>
                       Proceed to Order
                     </button>
                   ) : (
@@ -134,9 +149,9 @@ const total= cart.reduce(
                         <label >Customer Name</label>
                         <input  className="input" type="text" value={Customername} onChange={e=>setCustomername(e.target.value)}  required/>
                         <label>Booking</label>
-                        <input className="input" type="date" value={bookingDate} onChange={e => setBookingDate(e.target.value)} required />
+                        <input className="input" type="date" value={bookingDate}  min={new Date().toISOString().split("T")[0]} onChange={e => setBookingDate(e.target.value)} required />
                         <label>Return</label>
-                        <input className="input" type="date" value={returnDate} onChange={e => setReturnDate(e.target.value)} required/>
+                        <input className="input" type="date" value={returnDate}   min={new Date().toISOString().split("T")[0]}onChange={e => setReturnDate(e.target.value)} required/>
                       </div>
 
                       <div className="delivery-choice">

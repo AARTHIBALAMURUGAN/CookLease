@@ -104,7 +104,11 @@ const google=async (req, res) => {
     const user = await User.findById(decoded.id).select("-password"); // hide password
     if (!user) return res.status(404).json({ message: "User not found" });
 
-    res.status(200).json({ user });
+    res.status(200).json({ user: {
+        _id: user._id,
+        email: user.email,
+       name: user.name,
+        phone: user.phone} });
   } catch (err) {
     res.status(401).json({ message: "Invalid token" });
   }
