@@ -30,7 +30,7 @@ app.use(
     credentials: true
   })
 );
-app.get('/favicon.ico', (req, res) => res.status(204));
+
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 app.use(express.json());
 app.use(express.urlencoded({extended:false}))
@@ -114,5 +114,7 @@ app.get('/',(req,res)=>{
     res.send("Backend Running")
 
 })
-module.exports = app; 
+app.listen(port,()=>{
+    console.log("server is running on port 5000")
+})
 
