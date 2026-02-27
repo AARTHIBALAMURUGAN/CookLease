@@ -102,7 +102,7 @@ app.get('/auth/google/callback',
 
         // Set JWT cookie
         res.cookie('token', token, { httpOnly: true,secure: true, // true in production (https)
-  sameSite: "lax" });
+  sameSite: "none" });
 
         // Redirect to frontend dashboard
         res.redirect( `${process.env.CORS_ORIGIN_USER}/login?google=true`);
