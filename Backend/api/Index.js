@@ -101,7 +101,7 @@ app.get('/auth/google/callback',
         const token = jwt.sign({ id: req.user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
         // Set JWT cookie
-        res.cookie('token', token, { httpOnly: true,secure: false, // true in production (https)
+        res.cookie('token', token, { httpOnly: true,secure: true, // true in production (https)
   sameSite: "lax" });
 
         // Redirect to frontend dashboard
