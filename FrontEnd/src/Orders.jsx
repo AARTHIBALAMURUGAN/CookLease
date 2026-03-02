@@ -55,7 +55,7 @@ const Orders = () => {
               <p><strong>Return Date:</strong> {new Date(order.returnDate).toLocaleDateString()}</p>
               <p><strong>Shipment Status:</strong> {order.shipmentStatus}</p>
               <p><strong>Payment Status:</strong> {order.paymentStatus}</p>
-             {order.address && <p><strong>Address:</strong> {order.address?.fullName || "N/A"}, {order.address?.street || "N/A"}, {order.address?.city || "N/A"}</p>} 
+             {order.address && <p><strong>Address:</strong>  {order.address?.street || "N/A"}, {order.address?.city || "N/A"}</p>} 
             </div>
           ))}
         </div>

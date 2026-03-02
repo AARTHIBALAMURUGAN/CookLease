@@ -353,6 +353,24 @@ nav ul li > a::after {
 nav ul li > a:hover::after {
   width: 100%;
 }
+/* Responsive Navbar */
+@media (max-width: 768px) {
+
+  nav {
+    padding: 8px 15px;
+  }
+
+  nav ul h2 {
+    font-size: 20px;   /* CookLease smaller */
+  }
+
+  nav ul li > a {
+    font-size: 14px;   /* Links smaller */
+    margin-right: 12px;
+  }
+
+}
+
 
 .product-details {
   max-width: 400px;

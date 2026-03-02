@@ -10,7 +10,7 @@ const Cart = () => {
   const userId = localStorage.getItem("userId");
     
   const { cart, setCart, increaseQuantity, decreaseQuantity, removeFromCart } = useContext(CartContext);
-  const [errors,setError]=useState({})
+  const [errors,setErrors]=useState({})
   const[message,setmessage]=useState('')
   const[Customername,setCustomername]=useState('')
   const [bookingDate, setBookingDate] = useState("");
@@ -18,13 +18,47 @@ const Cart = () => {
   const [deliveryType, setDeliveryType] = useState("");
   const [showBookingForm, setShowBookingForm] = useState(false);
   const [address, setAddress] = useState({
-    fullName: "",
     phone: "",
     street: "",
     city: "",
     pincode: "",
     landmark: "",
   });
+
+  const validateAddress = () => {
+  let newErrors = {};
+
+  // Full Name
+  if (!Customername.trim()) {
+    newErrors.customerName = "Customer Name is required";
+  }
+
+  // Phone - 10 digits only
+  const phoneRegex = /^[0-9]{10}$/;
+  if (!phoneRegex.test(address.phone)) {
+    newErrors.phone = "Phone must be exactly 10 digits";
+  }
+
+  // Street
+  if (!address.street.trim()) {
+    newErrors.street = "Street is required";
+  }
+
+  // City
+  if (!address.city.trim()) {
+    newErrors.city = "City is required";
+  }
+
+  // Pincode - 6 digits only
+  const pincodeRegex = /^[0-9]{6}$/;
+  if (!pincodeRegex.test(address.pincode)) {
+    newErrors.pincode = "Pincode must be exactly 6 digits";
+  }
+
+  setErrors(newErrors);
+
+  return Object.keys(newErrors).length === 0;
+};
 
   const totalPrice = cart.reduce((total, item) => total + item.price * item.quantity, 0);
   const getNumberOfDays = () => {
@@ -47,18 +81,16 @@ const total= cart.reduce(
 
      if (!userId) {
     setmessage("Please login to confirm your order.");
-    // setTimeout(()=>{
-    //    navigate("/login");
-    // },10000)
+    
   
     return;
   }
 
     if (!bookingDate || !returnDate) return setmessage("Select booking and return dates");
     if (deliveryType === "delivery") {
-      if (!address.fullName || !address.phone || !address.street || !address.city || !address.pincode) {
-        return setmessage("Please fill all address details for delivery");
-      }
+      if (!validateAddress()) {
+      return; // stop if validation fails
+    }
     }
 
     try {
@@ -86,10 +118,10 @@ const total= cart.reduce(
     }   catch(e){
     if(e.response&&e.response.data&&e.response.data.message){
         const backendMessage=e.response.data.message
-        setError({general:backendMessage})
+        setErrors({general:backendMessage})
     }
     else{
-        setError({general:" Failed to Booking Order"})
+        setErrors({general:" Failed to Booking Order"})
     }
   }
   };
@@ -140,11 +172,12 @@ const total= cart.reduce(
 
                 <div className="actions">
                   {!showBookingForm ? (
-                    <button className="btn btn-primary proceed-btn" onClick={() => {setShowBookingForm(true);placeBooking();}}>
+                    <button className="btn btn-primary proceed-btn" onClick={() => {setShowBookingForm(true);;}}>
                       Proceed to Order
                     </button>
                   ) : (
                     <>
+                    {errors.customerName && <p className="error">{errors.customerName}</p>}
                       <div className="date-row">
                         <label >Customer Name</label>
                         <input  className="input" type="text" value={Customername} onChange={e=>setCustomername(e.target.value)}  required/>
@@ -166,12 +199,17 @@ const total= cart.reduce(
 
                       {deliveryType === "delivery" && (
                         <div className="address-form">
-                          <input className="input" type="text" placeholder="Full Name" value={address.fullName} onChange={e => setAddress({...address, fullName: e.target.value})} />
+                      
                           <input className="input" type="text" placeholder="Phone" value={address.phone} onChange={e => setAddress({...address, phone: e.target.value})} />
+                           {errors.phone && <p className="error">{errors.phone}</p>}
                           <input className="input" type="text" placeholder="Street" value={address.street} onChange={e => setAddress({...address, street: e.target.value})} />
+                           {errors.street && <p className="error">{errors.street}</p>}
                           <input className="input" type="text" placeholder="City" value={address.city} onChange={e => setAddress({...address, city: e.target.value})} />
+                           {errors.city && <p className="error">{errors.city}</p>}
                           <input className="input" type="text" placeholder="Pincode" value={address.pincode} onChange={e => setAddress({...address, pincode: e.target.value})} />
+                           {errors.pincode && <p className="error">{errors.pincode}</p>}
                           <input className="input" type="text" placeholder="Landmark (optional)" value={address.landmark} onChange={e => setAddress({...address, landmark: e.target.value})} />
+                        
                         </div>
                       )}
 <div className="summary-row">

@@ -32,7 +32,14 @@ const handleAddToCart = (e) => {
       <br/>
       {stock > 0 ? (
         // Add to Cart click → only adds to cart
-        <button onClick={handleAddToCart} disabled={isInCart || added}>
+       <button
+  onClick={handleAddToCart}
+  disabled={isInCart || added}
+  style={{
+    
+    cursor: isInCart || added ? "not-allowed" : "pointer"
+  }}
+>
             {isInCart || added ? "Added to Cart" : "Add to Cart"}
           </button>
       ) : (
